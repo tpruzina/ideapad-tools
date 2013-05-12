@@ -44,6 +44,10 @@ parse_buffer_into_struct(char *buffer)
 
 	token = strtok(token," ");
 	while(token && *token) {
+		/* token was loaded, but not matched, try again */
+		beginning:
+		
+		/* fan handling */
 		if(strcmp("--fan",token) == 0) {
 			/* we are going to print fan_mode value */
 			data.fan_print = true;
@@ -61,12 +65,11 @@ parse_buffer_into_struct(char *buffer)
 			else if(strcmp("effective",token) == 0)
 				data.fan_val = FAN_DISSIPATION;
 			else
-				goto do_not_set_fan;
+				goto beginning;
 			debug_print("--fan option detected");
 			data.fan_set=true;			
-			do_not_set_fan:
-			;
 		}
+		/* webcam handling */
 		if(strcmp("--webcam",token) == 0) {
 			data.webcam_print = true;
 			token = strtok(NULL, " ");
@@ -77,12 +80,11 @@ parse_buffer_into_struct(char *buffer)
 			else if(strcmp("off",token) == 0)
 				data.webcam_val = 0;
 			else
-				goto do_not_set_webcam;
+				goto beginning;
 			debug_print("--webcam option detected");
 			data.webcam_set = true;
-			do_not_set_webcam:
-			;
 		}
+		/* get next token */
 		token = strtok(NULL," ");
 	}
 	debug_print("exited parse loop\n");
@@ -121,7 +123,6 @@ void debug_print(const char *msg)
 #endif 
 
 #ifdef DEBUG
-void
 debug_print(const char *msg)
 {
 	fprintf(stderr, "%s:%i: %s\n", __FILE__, __LINE__, msg);

@@ -125,16 +125,16 @@ main()
 		exit(1); 
 	}
 
-	/* main loop, testing for new messages */
-	while (1) {
+	/* main loop, testing for new messages - 10*1000ms = 10 sec */
+	unsigned char i=10;
+	while(i--) {
 		/* non blocking read of the next available message */
 		dbus_connection_read_write(conn, 1000);
 		msg = dbus_connection_pop_message(conn);
 		
 		/* loop again if we haven't got a message */
-		if (NULL == msg) { 
-			continue; 
-		}
+		if (NULL == msg)
+			continue;
 		
 		/* check this is a method call for the right interface and method
 		 * or if it is a signal from the correct interface and with 
