@@ -65,15 +65,8 @@ method_call(DBusConnection* conn, char *msg_text)
 			fprintf(stderr, "D-Bus message reply has no arguments");
 		else if (DBUS_TYPE_BOOLEAN != dbus_message_iter_get_arg_type(&args))
 			fprintf(stderr, "D-Bus message first argument is not boolean");
-		else {
+		else
 			dbus_message_iter_get_basic(&args, &stat);
-	
-			if (stat) { /* true value */
-				fprintf(stdout, "Positive value from server received");
-			} else { /* false value */
-				fprintf(stdout, "Negative value from server recived");
-			}
-		}
 	
 		/* get the second parameter */
 		if (!dbus_message_iter_next(&args))
@@ -82,9 +75,9 @@ method_call(DBusConnection* conn, char *msg_text)
 			fprintf(stderr, "Argument is not string!\n");
 		else {
 			/* Get formatted reply message */
-			
 			dbus_message_iter_get_basic(&args, &reply_text);
-			fprintf(stdout,"Reply message: %s\n", reply_text);
+			/* PRINT OUTPUT FROM SERVER */
+			fprintf(stdout,"%s", reply_text);
 			
 			/* *************************** */
 		}

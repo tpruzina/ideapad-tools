@@ -95,8 +95,11 @@ char *
 process_data(struct data *data)
 {
 	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
-	/* Handle alloc error */
-
+	if(!reply_buffer) {
+		fprintf(stderr,"OOM!\n");
+		exit(1);
+	}
+	/* this may be useless, check standard/posix */
 	*reply_buffer='\0';
 
 	if(data->fan_set)
@@ -107,10 +110,21 @@ process_data(struct data *data)
 			debug_print("Could not have set webcam powerlevel!");
 
 	if(data->fan_print) {
+#ifdef DEBUG
 		printf("%d\n",get_fan_state());
+#endif
+		data->fan_val = get_fan_state();
+		snprintf(reply_buffer, BUFFER_SIZE - strlen(reply_buffer) - 1,
+			"fan mode: %s\n", data->fan_val == 0 ? "quiet" :
+					  data->fan_val == 1 ? "default" :
+					  data->fan_val == 2 ? "dust cleaning" :
+					  data->fan_val == 4 ? "effective cooling" :
+					  "ERROR!");
 	}
 	if(data->webcam_print) {
+#ifdef DEBUG
 		printf("%d\n",get_camera_state());
+#endif
 	}
 	return reply_buffer;
 }
@@ -123,6 +137,7 @@ void debug_print(const char *msg)
 #endif 
 
 #ifdef DEBUG
+void
 debug_print(const char *msg)
 {
 	fprintf(stderr, "%s:%i: %s\n", __FILE__, __LINE__, msg);
