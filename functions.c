@@ -32,8 +32,6 @@ parse_args_into_buffer(int argc, char **argv)
 	return buffer;
 }
 
-
-#define DEBUG 1
 struct data
 parse_buffer_into_struct(char *buffer)
 {
