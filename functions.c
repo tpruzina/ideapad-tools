@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h> //strcmp,strtok
 #include <stdlib.h> //malloc
+#include <dirent.h>
 
 #include "functions.h"
 #include "platform.h"
@@ -128,6 +129,23 @@ process_data(struct data *data)
 	}
 	return reply_buffer;
 }
+
+bool
+is_there_kernel_support()
+{
+	DIR *d = opendir(IFACE_DIR);
+	/* /sys interface not found, probe loading module */
+	if(!d) {
+		system("modprobe ideapad-laptop");
+		/* try again */
+		d=opendir(IFACE_DIR);
+		if(!d)
+			return false;
+	}
+	closedir(d);
+	return true;
+}
+
 
 #ifndef DEBUG
 void debug_print(const char *msg)

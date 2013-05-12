@@ -41,18 +41,20 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 		fprintf(stderr, "Argument is not string!\n");
 	else
 		dbus_message_iter_get_basic(&args, &param);
-	
-	fprintf(stdout, "Method called with message \"%s\"\n", param);
-
+#ifdef DEBUG
+	fprintf(stdout, "Method called with arguments \"%s\"\n", param);
+#endif
 	/***************************************************************
 	 ************* PARSE && PROCESS *******************************/
-	
-	/* parses string with arguments, saving into struct data */
-	data = parse_buffer_into_struct(param);
-	/* executes "jobs" and returns formated string that is to be sent back
-	 * to client */
-	reply_text = process_data(&data);
-
+	if(!is_there_kernel_support())
+		reply_text = "No kernel support!\n";
+	else {
+		/* parses string with arguments, saving into struct data */
+		data = parse_buffer_into_struct(param);
+		/* executes "jobs" and returns formated string that is to be sent back
+		 * to client */
+		reply_text = process_data(&data);
+	}
 
 	/************* DONE! ******************************************/
 

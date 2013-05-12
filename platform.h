@@ -12,6 +12,7 @@
 #ifndef __IDEAPAD_PLATFORM_H__
 #define __IDEAPAD_PLATFORM_H__
 
+#define IFACE_DIR "/sys/devices/platform/ideapad"
 #define FAN_CTRL_IFACE "/sys/devices/platform/ideapad/fan_mode"
 #define CAMERA_CTRL_IFACE "/sys/devices/platform/ideapad/camera_power"
 
