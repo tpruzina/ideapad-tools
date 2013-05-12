@@ -95,6 +95,23 @@ main(int argc, char *argv[])
 	DBusError err;
 	DBusConnection* conn;
 
+	if(argc == 1 || (argc == 2 && strcmp("--help",argv[1]) == 0)) {
+		printf("Usage:"
+			"ideapad-client <OPTS>\n"
+			"OPTS:\n"
+			"--fan 			#prints current fan mode\n"
+			" --fan silent		#sets fan mode to silent\n"
+			" --fan default		#sets fan mode to default\n"
+			" --fan dustclean	#sets fan mode to dust cleaning\n"
+			" --fan cool		#sets fan mode to effective cooling\n\n"
+			"--webcam		#prints current webcam power status\n"
+			" --webcam on		#turns webcam on\n"
+			" --webcam off		#turns webcam off\n\n"
+			"--help			#this message\n"
+		);
+		return 0;
+	}
+
 	char *arg_buf = NULL;
 
 	/* initialise the errors */
