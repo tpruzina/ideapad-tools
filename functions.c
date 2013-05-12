@@ -107,7 +107,12 @@ parse_buffer_into_struct(char *buffer)
 char *
 process_data(struct data *data)
 {
+	/* main buffer for formatted message */
 	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
+	/* side buffer, used for snprintf and then concatenation to
+	 * reply_buffer */
+	char partial_message[20] = {0};
+
 	if(!reply_buffer) {
 		fprintf(stderr,"OOM!\n");
 		exit(1);
@@ -118,26 +123,29 @@ process_data(struct data *data)
 
 	/* SAVE FAN MODE */
 	if(data->fan_set)
-		if(set_fan_state(data->fan_val) == -1)
+		if(set_fan_state(data->fan_val) == -1) {
 			debug_print("Could not have set fan mode!");
+			data->fan_val = -1;
+		}
 
 	/* SAVE CAMERA MODE */
 	if(data->webcam_set)
-		if(set_camera_state(data->webcam_val) == -1)
+		if(set_camera_state(data->webcam_val) == -1) {
 			debug_print("Could not have set webcam powerlevel!");
-
+			data->webcam_val = -1;
+		}
 	/* PRINT CAMERA STATE */
 	if(data->fan_print) {
 #ifdef DEBUG
 		printf("%d\n",get_fan_state());
 #endif
-		data->fan_val = get_fan_state();
-		snprintf(reply_buffer, BUFFER_SIZE - strlen(reply_buffer) - 1,
-			"fan mode: %s\n", data->fan_val == 0 ? "silent" :
+		sprintf(partial_message,
+			"fan mode:\t%s\n", data->fan_val == 0 ? "silent" :
 					  data->fan_val == 1 ? "default" :
 					  data->fan_val == 2 ? "dust cleaning" :
 					  data->fan_val == 4 ? "effective cooling" :
 					  "ERROR!");
+		strncat(reply_buffer,partial_message, BUFFER_SIZE - strlen(reply_buffer) - 1);
 	}
 
 	/* PRINT WEBCAM STATE */
@@ -145,11 +153,11 @@ process_data(struct data *data)
 #ifdef DEBUG
 		printf("%d\n",get_camera_state());
 #endif
-		data->webcam_val = get_camera_state();
-		snprintf(reply_buffer, BUFFER_SIZE - strlen(reply_buffer) - 1,
-			"camera power: %s\n",	data->webcam_val == 0 ? "off" :
+		sprintf(partial_message,
+			"camera power:\t%s\n",	data->webcam_val == 0 ? "off" :
 						data->webcam_val == 1 ? "on" :
 						"ERROR!");
+		strncat(reply_buffer,partial_message, BUFFER_SIZE - strlen(reply_buffer) - 1);
 	}
 
 	/* Return buffer*/
