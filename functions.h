@@ -21,13 +21,13 @@
 
 struct data
 {
-	bool	print_fan;
-	bool	set_fan;
+	bool	fan_print;
+	bool	fan_set;
 	int	fan_val;
 
-	bool	print_camera;
-	bool	set_camera;
-	int	camera_val;
+	bool	webcam_print;
+	bool	webcam_set;
+	int	webcam_val;
 
 };
 

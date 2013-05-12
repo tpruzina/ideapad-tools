@@ -17,8 +17,8 @@
 #include <stdbool.h>
 #include <dbus/dbus.h>
 
-#include "ideapad-functions.h"
-#include "ideapad-dbus.h"
+#include "functions.h"
+#include "bus.h"
 
 
 void

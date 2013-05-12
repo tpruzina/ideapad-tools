@@ -16,8 +16,8 @@
 #include <stdbool.h>
 #include <dbus/dbus.h>
 
-#include "ideapad-dbus.h"
-#include "ideapad-functions.h" // parsing functions
+#include "bus.h"
+#include "functions.h" // parsing functions
 
 void
 method_call(DBusConnection* conn, char *msg_text)
