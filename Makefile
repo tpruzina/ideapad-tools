@@ -1,10 +1,12 @@
 CC=gcc
 DBUS_INCLUDES=-I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include
+CFLAGS=-g -std=gnu99 
+
 
 all: server client
 
-client: ideapad-client.c
-	$(CC) $(DBUS_INCLUDES) ideapad-client.c -o ideapad-client -ldbus-1
+client: ideapad-functions.c ideapad-client.c
+	$(CC) $(DBUS_INCLUDES) $(CFLAGS) $^ -o ideapad-client -ldbus-1
 
-server: ideapad-server.c
-	$(CC) $(DBUS_INCLUDES) ideapad-server.c -o ideapad-server -ldbus-1
+server: ideapad-functions.c ideapad-server.c
+	$(CC) $(DBUS_INCLUDES) $(CFLAGS) $^ -o ideapad-server -ldbus-1
