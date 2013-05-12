@@ -12,7 +12,7 @@ recent kernel with ideapad-laptop platform driver<br>
 
 Usage:
 <pre>
-ideapad-client <OPTS>
+ideapad-client [OPTS]
 OPTS:
 --fan 			#prints current fan mode
  --fan silent		#sets fan mode to silent
