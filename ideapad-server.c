@@ -31,7 +31,9 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 	char            *param = "";
 	/* unique number to associate replies with requests */
 	dbus_uint32_t    serial = 0; 
-	
+	/* ideapad variables */
+	struct data data;
+
 	/* read the arguments */
 	if (!dbus_message_iter_init(msg, &args))
 		fprintf(stderr, "Message has no arguments!\n");
@@ -42,23 +44,25 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 	
 	fprintf(stdout, "Method called with message \"%s\"\n", param);
 
-	// parses string with arguments, saving into struct data
-	struct data data;
+	/***************************************************************
+	 ************* PARSE && PROCESS *******************************/
+	
+	/* parses string with arguments, saving into struct data */
 	data = parse_buffer_into_struct(param);
-	// executes "jobs" and returns formated string that is to be sent back
-	// to client
+	/* executes "jobs" and returns formated string that is to be sent back
+	 * to client */
 	reply_text = process_data(&data);
+
+
+	/************* DONE! ******************************************/
 
 	/* create a reply from the message */
 	reply = dbus_message_new_method_return(msg);
 	
 	/* add the arguments to the reply */
 	dbus_message_iter_init_append(reply, &args);
-	if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_BOOLEAN, &stat)) {
-		fprintf(stderr, "Out Of Memory!\n");
-		exit(1);
-	}
-	if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &reply_text)) {
+	if (	!dbus_message_iter_append_basic(&args, DBUS_TYPE_BOOLEAN, &stat)
+		|| !dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &reply_text)){
 		fprintf(stderr, "Out Of Memory!\n");
 		exit(1);
 	}
