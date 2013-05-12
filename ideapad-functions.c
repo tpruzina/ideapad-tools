@@ -9,16 +9,15 @@
  *
  ******************************************************************************/
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <string.h> //strcmp,strtok
+#include <stdlib.h> //malloc
 
 #include "ideapad-functions.h"
-
+#include "ideapad-platform.h"
 
 /* client's command line arguments are parsed into formatted string which is to be sent
  * to server
  */
-
 #define BUFFER_SIZE 128
 char *
 parse_args_into_buffer(int argc, char **argv)
@@ -70,13 +69,29 @@ parse_buffer_into_struct(char *buffer)
 char *
 process_data(struct data *data)
 {
-	return "TEST";
+	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
+	/* Handle alloc error */
+
+	*reply_buffer='\0';
+	if(data->set_fan)
+		if(set_fan_state(data->fan_val) == -1)
+			debug_print("Could not have set fan mode!");
+	return reply_buffer;
 }
 
-/*
-int main(int argc, char **argv)
+#ifndef DEBUG
+void debug_print(const char *msg)
 {
-	printf("%s\n",parse_args_into_buffer(argc, argv));
-	return 0;
+	;
 }
-*/
+#endif 
+
+#ifdef DEBUG
+void
+debug_print(const char *msg)
+{
+	fprintf(stderr, "%s:%i: %s\n", __FILE__, __LINE_&_, msg);
+}
+#endif
+
+
