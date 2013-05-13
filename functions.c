@@ -44,6 +44,7 @@ parse_buffer_into_struct(char *buffer)
 	token = strtok(token," ");
 	while(token && *token) {
 		/* token was loaded, but not matched, try again */
+		
 		/* fan handling */
 		if(strcmp("--fan",token) == 0) {
 			/* we are going to print fan_mode value */
@@ -71,9 +72,9 @@ parse_buffer_into_struct(char *buffer)
 				goto skip_write;		
 			debug_print("--fan option detected");
 			data.fan_set=true;
-		}
+		
 		/* webcam handling */
-		if(strcmp("--webcam",token) == 0) {
+		} else if(strcmp("--webcam",token) == 0) {
 			data.webcam_print = true;
 			token = strtok(NULL, " ");
 			debug_print("--webcam given");
@@ -91,6 +92,9 @@ parse_buffer_into_struct(char *buffer)
 				goto skip_write;
 			debug_print("--webcam option detected");
 			data.webcam_set = true;
+		} else {
+			/* Unrecognized option, return empty struct */
+			return (struct data) {0};
 		}
 		/* get next token */
 		token = strtok(NULL," ");
@@ -107,14 +111,13 @@ process_data(struct data *data)
 {
 	/* main buffer for formatted message */
 	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
-	/* side buffer, used for snprintf and then concatenation to
-	 * reply_buffer */
-	char partial_message[20] = {0};
-
 	if(!reply_buffer) {
 		fprintf(stderr,"OOM!\n");
 		exit(1);
 	}
+	/* side buffer, used for snprintf and then concatenation to
+	 * 	 * reply_buffer */
+	char partial_message[20] = {0};
 
 	/* this may be useless, check standard/posix */
 	*reply_buffer='\0';
@@ -137,6 +140,10 @@ process_data(struct data *data)
 #ifdef DEBUG
 		printf("%d\n",get_fan_state());
 #endif
+		/* Unless we did set fan, this is still -1 */
+		if(!data->fan_set)
+			data->fan_val=get_fan_state();
+
 		sprintf(partial_message,
 			"fan mode:\t%s\n", data->fan_val == 0 ? "silent" :
 					  data->fan_val == 1 ? "default" :
@@ -151,10 +158,21 @@ process_data(struct data *data)
 #ifdef DEBUG
 		printf("%d\n",get_camera_state());
 #endif
+		/* unless we did set camera, this is still -1 */
+		if(!data->webcam_set)
+			data->webcam_val=get_camera_state();
+
 		sprintf(partial_message,
 			"camera power:\t%s\n",	data->webcam_val == 0 ? "off" :
 						data->webcam_val == 1 ? "on" :
 						"ERROR!");
+		strncat(reply_buffer,partial_message, BUFFER_SIZE - strlen(reply_buffer) - 1);
+	}
+
+	/* Nothing was set --> error handling parameters */
+	if(!data->webcam_print && !data->fan_print) {
+		sprintf(partial_message,
+			"Invalid command line parameters!\n");
 		strncat(reply_buffer,partial_message, BUFFER_SIZE - strlen(reply_buffer) - 1);
 	}
 

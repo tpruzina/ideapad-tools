@@ -53,7 +53,7 @@ method_call(DBusConnection* conn, char *msg_text)
 	reply = dbus_connection_send_with_reply_and_block(conn, msg, -1, &dbus_err);
 	if (dbus_error_is_set (&dbus_err)) {
 		/* handle DBUS_MESSAGE_TYPE_ERROR response message */
-		fprintf(stderr, "Error response received:\n%s\n", dbus_err.message);
+		fprintf(stderr, "Error!\n%s\n", dbus_err.message);
 		exit(1);
 	}
 	
