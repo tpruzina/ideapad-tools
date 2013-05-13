@@ -35,7 +35,16 @@ char *parse_args_into_buffer(int argc, char **argv);
 struct data parse_buffer_into_struct(char *buffer);
 char *process_data(struct data *data);
 bool is_there_kernel_support(void);
-void debug_print(const char *msg);
+
+#ifdef DEBUG
+#define DEBUG_PRINT(...) do{ \
+			fprintf(stderr, "%s:%i:"__FILE__, __LINE__); \
+			fprintf( stderr, __VA_ARGS__ );\
+			} while( false )
+#else
+#define DEBUG_PRINT(...) do{ ; } while ( false )
+#endif
+
 
 #endif
 

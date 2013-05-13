@@ -51,7 +51,7 @@ parse_buffer_into_struct(char *buffer)
 			data.fan_print = true;
 			/* get next token */
 			token = strtok(NULL," ");
-			debug_print("--fan given\n");
+			DEBUG_PRINT("--fan given\n");
 			
 			/* if we detect any of these, set property
 			 * else just parse next token (if any)*/
@@ -70,14 +70,14 @@ parse_buffer_into_struct(char *buffer)
 				data.fan_val = FAN_DISSIPATION;
 			else
 				goto skip_write;		
-			debug_print("--fan option detected");
+			DEBUG_PRINT("--fan option detected");
 			data.fan_set=true;
 		
 		/* webcam handling */
 		} else if(strcmp("--webcam",token) == 0) {
 			data.webcam_print = true;
 			token = strtok(NULL, " ");
-			debug_print("--webcam given");
+			DEBUG_PRINT("--webcam given");
 			
 			// no more tokens
 			if(!token)
@@ -90,7 +90,7 @@ parse_buffer_into_struct(char *buffer)
 				data.webcam_val = 0;
 			else
 				goto skip_write;
-			debug_print("--webcam option detected");
+			DEBUG_PRINT("--webcam option detected");
 			data.webcam_set = true;
 		} else {
 			/* Unrecognized option, return empty struct */
@@ -102,7 +102,7 @@ parse_buffer_into_struct(char *buffer)
 		skip_write:
 		;
 	}
-	debug_print("exited parse loop\n");
+	DEBUG_PRINT("exited parse loop\n");
 	return data;
 }
 
@@ -125,21 +125,19 @@ process_data(struct data *data)
 	/* SAVE FAN MODE */
 	if(data->fan_set)
 		if(set_fan_state(data->fan_val) == -1) {
-			debug_print("Could not have set fan mode!");
+			DEBUG_PRINT("Could not have set fan mode!");
 			data->fan_val = -1;
 		}
 
 	/* SAVE CAMERA MODE */
 	if(data->webcam_set)
 		if(set_camera_state(data->webcam_val) == -1) {
-			debug_print("Could not have set webcam powerlevel!");
+			DEBUG_PRINT("Could not have set webcam powerlevel!");
 			data->webcam_val = -1;
 		}
 	/* PRINT CAMERA STATE */
 	if(data->fan_print) {
-#ifdef DEBUG
-		printf("%d\n",get_fan_state());
-#endif
+		DEBUG_PRINT("%d\n",get_fan_state());
 		/* Unless we did set fan, this is still -1 */
 		if(!data->fan_set)
 			data->fan_val=get_fan_state();
@@ -155,9 +153,7 @@ process_data(struct data *data)
 
 	/* PRINT WEBCAM STATE */
 	if(data->webcam_print) {
-#ifdef DEBUG
-		printf("%d\n",get_camera_state());
-#endif
+		DEBUG_PRINT("%d\n",get_camera_state());
 		/* unless we did set camera, this is still -1 */
 		if(!data->webcam_set)
 			data->webcam_val=get_camera_state();
@@ -196,20 +192,5 @@ is_there_kernel_support()
 	return true;
 }
 
-
-#ifndef DEBUG
-void debug_print(const char *msg)
-{
-	;
-}
-#endif 
-
-#ifdef DEBUG
-void
-debug_print(const char *msg)
-{
-	fprintf(stderr, "%s:%i: %s\n", __FILE__, __LINE__, msg);
-}
-#endif
 
 

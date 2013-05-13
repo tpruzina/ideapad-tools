@@ -1,4 +1,3 @@
-L:	rewrite debug_print() function ->  macro
 M:	make this thingy faster
 M:	write documentation
 M:	debug argument parsing
