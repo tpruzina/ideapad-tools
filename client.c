@@ -20,7 +20,7 @@
 #include "functions.h" // parsing functions
 
 void
-method_call(DBusConnection* conn, char *msg_text)
+method_call(DBusConnection *conn, const char *msg_text)
 {
 	DBusMessage	*msg, *reply;
 	DBusMessageIter	args;
@@ -48,7 +48,7 @@ method_call(DBusConnection* conn, char *msg_text)
 		fprintf(stderr, "OOM\n");
 		exit(1);
 	}
-
+	
 	/* send message and wait for reply */
 	reply = dbus_connection_send_with_reply_and_block(conn, msg, -1, &dbus_err);
 	if (dbus_error_is_set (&dbus_err)) {
@@ -56,9 +56,11 @@ method_call(DBusConnection* conn, char *msg_text)
 		fprintf(stderr, "Error!\n%s\n", dbus_err.message);
 		exit(1);
 	}
+	dbus_error_free(&dbus_err);
 	
 	/* cleanup */
 	dbus_message_unref(msg);
+	
 	if (reply) {
 		/* read the parameters */
 		if (!dbus_message_iter_init(reply, &args))
@@ -77,11 +79,9 @@ method_call(DBusConnection* conn, char *msg_text)
 			/* Get formatted reply message */
 			dbus_message_iter_get_basic(&args, &reply_text);
 			/* PRINT OUTPUT FROM SERVER */
-			fprintf(stdout,"%s", reply_text);
-			
+			printf("%s", reply_text);
 			/* *************************** */
 		}
-	
 		/* free reply and close connection */
 		dbus_message_unref (reply);
 	} else
@@ -118,11 +118,10 @@ main(int argc, char *argv[])
 	dbus_error_init(&err);
 
 	/* connect to the bus */
-	conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
-	if (dbus_error_is_set(&err)) {
+	conn = dbus_bus_get_private(DBUS_BUS_SYSTEM, &err);
+	if (dbus_error_is_set(&err))
 		fprintf(stderr, "D-Bus connection Error (%s)\n", err.message);
-		dbus_error_free(&err);
-	}
+	
 	if (!conn) {
 		fprintf(stderr, "D-Bus connection failed.\n");
 		exit(1);
@@ -139,6 +138,9 @@ main(int argc, char *argv[])
 	method_call(conn, arg_buf);
 	/* Cleanup */
 	free(arg_buf);
+	
+	dbus_connection_unref(conn);
+	dbus_error_free(&err);
 
 	return 0;
 }

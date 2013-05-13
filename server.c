@@ -89,7 +89,6 @@ main()
 	DBusMessage     *msg;
 	char            *filter_rule;
 
-
 	/* initialise the errors */
 	dbus_error_init(&err);
 
@@ -106,10 +105,9 @@ main()
 
 	/* request a name on the bus */
 	ret = dbus_bus_request_name(conn, SERVER_BUSNAME, DBUS_NAME_FLAG_DO_NOT_QUEUE, &err);
-	if (dbus_error_is_set(&err)) {
+	if (dbus_error_is_set(&err))
 		fprintf(stderr, "Getting bus name failed (%s)\n", err.message);
-		dbus_error_free(&err);
-	}
+
 	if (DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER != ret) {
 		fprintf(stderr, "Unable to became primary owner of the '%s' bus name",
 				SERVER_BUSNAME);
@@ -131,7 +129,7 @@ main()
 	unsigned char i=10;
 	while(i--) {
 		/* non blocking read of the next available message */
-		dbus_connection_read_write(conn, 1000);
+		dbus_connection_read_write(conn, 500);
 		msg = dbus_connection_pop_message(conn);
 		
 		/* loop again if we haven't got a message */
@@ -149,5 +147,6 @@ main()
 		/* free the message */
 		dbus_message_unref(msg);
 	}
+	dbus_error_free(&err);
 	free(filter_rule);
 }
