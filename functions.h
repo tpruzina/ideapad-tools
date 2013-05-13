@@ -38,8 +38,8 @@ bool is_there_kernel_support(void);
 
 #ifdef DEBUG
 #define DEBUG_PRINT(...) do{ \
-			fprintf(stderr, "%s:%i:"__FILE__, __LINE__); \
-			fprintf( stderr, __VA_ARGS__ );\
+			fprintf(stderr, "%s:%i:",__FILE__, __LINE__);\
+			fprintf(stderr,__VA_ARGS__ );\
 			} while( false )
 #else
 #define DEBUG_PRINT(...) do{ ; } while ( false )
