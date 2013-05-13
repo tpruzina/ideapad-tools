@@ -14,6 +14,8 @@
 
 #include <stdbool.h>
 
+#define BUFFER_SIZE 512
+
 #define FAN_SILENT	0
 #define FAN_STANDARD	1
 #define	FAN_DUSTCLEAN	2
@@ -31,7 +33,7 @@ struct data
 
 };
 
-char *parse_args_into_buffer(int argc, char **argv);
+char *parse_args_into_buffer(char *buffer,int argc, char **argv);
 struct data parse_buffer_into_struct(char *buffer);
 char *process_data(struct data *data);
 bool is_there_kernel_support(void);

@@ -19,15 +19,13 @@
 /* client's command line arguments are parsed into formatted string which is to be sent
  * to server
  */
-#define BUFFER_SIZE 512
 char *
-parse_args_into_buffer(int argc, char **argv)
+parse_args_into_buffer(char *buffer,int argc, char **argv)
 {
-	char *buffer = malloc(sizeof(BUFFER_SIZE));
 	*buffer='\0';
 	while(--argc > 0 && ++argv){
-		strncat(buffer,*argv,BUFFER_SIZE - strlen(buffer) - 1);
-		strncat(buffer," ", BUFFER_SIZE - strlen(buffer) - 1);
+		strncat(buffer,*argv,BUFFER_SIZE -1 - strlen(buffer));
+		strncat(buffer," ", BUFFER_SIZE	-1 - strlen(buffer));
 	}
 	return buffer;
 }

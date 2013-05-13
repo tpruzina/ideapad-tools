@@ -149,6 +149,5 @@ main()
 		/* free the message */
 		dbus_message_unref(msg);
 	}
-
-
+	free(filter_rule);
 }

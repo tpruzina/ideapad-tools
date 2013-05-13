@@ -131,9 +131,14 @@ main(int argc, char *argv[])
 	if (argc < 2)
 		return 1;
 	
-	arg_buf = parse_args_into_buffer(argc,argv);
-	
+	/* Allocates buffer for dbus message string */
+	arg_buf = malloc(BUFFER_SIZE);
+	/* Parses command line arguments into string array */
+	parse_args_into_buffer(arg_buf,argc,argv);
+	/* Send message <param array> to server */
 	method_call(conn, arg_buf);
-	
+	/* Cleanup */
+	free(arg_buf);
+
 	return 0;
 }
