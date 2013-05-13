@@ -1,14 +1,14 @@
 ideapad-tools
 =============
 
-version: 0.1 <br>
+version: 0.3 <br>
 
-command line utility which (will) support ideapad platform features (fan mode, rfkill...) <br>
+Command line utility which support ideapad laptop features <br>
 Written to use recent (3.5+) kernel patches for ideapads (Z570..) <br>
 
-Currently works:<br>
+Works:<br>
 fan mode (silent,default, dust cleaning, effctive cooling) <br>
-webcam power (on, off) <br> <br>
+webcam power (on, off) <br>
 Todo: <br>
 rfkill bluetooth, wifi <br>
 backlight (should work out of the box) <br>
@@ -17,7 +17,7 @@ current fan speed <br>
 
 Dependencies:<br>
 dbus<br>
-recent kernel with ideapad-laptop platform driver<br>
+kernel with ideapad-laptop platform driver<br>
 
 Usage:
 <pre>
