@@ -103,7 +103,7 @@ main(int argc, char *argv[])
 			" --fan silent		#sets fan mode to silent\n"
 			" --fan default		#sets fan mode to default\n"
 			" --fan dustclean	#sets fan mode to dust cleaning\n"
-			" --fan cool		#sets fan mode to effective cooling\n\n"
+			" --fan dissipate		#sets fan mode to effective cooling\n\n"
 			"--webcam		#prints current webcam power status\n"
 			" --webcam on		#turns webcam on\n"
 			" --webcam off		#turns webcam off\n\n"

@@ -31,15 +31,18 @@ parse_args_into_buffer(char *buffer,int argc, char **argv)
 }
 
 struct data
-parse_buffer_into_struct(char *buffer)
+parse_buffer_into_struct(char *str)
 {
-	char *token = buffer;
-	struct data data = {false,false,-1,	//fan - print,set,value
-			    false,false,-1,};	//cam - print,set,value
+	char *token = NULL;
+	struct data data = {false,false,0,	//fan - print,set,value
+			    false,false,0,};	//cam - print,set,value
+	
+	char *copy = (char *)malloc(strlen(str) + 1);
+	if(!copy)
+		return data;
+	strcpy(copy,str);	
 
-	/* todo parse empty string here?*/
-
-	token = strtok(token," ");
+	token = strtok(copy," ");
 	while(token && *token) {
 		/* token was loaded, but not matched, try again */
 		
@@ -54,7 +57,7 @@ parse_buffer_into_struct(char *buffer)
 			/* if we detect any of these, set property
 			 * else just parse next token (if any)*/
 			
-			/* no more tokens */
+			/* no more tokens -- print only */
 			if(!token)
 				continue;
 			
@@ -64,7 +67,7 @@ parse_buffer_into_struct(char *buffer)
 				data.fan_val = FAN_STANDARD;
 			else if(strcmp("dustclean",token) == 0)
 				data.fan_val = FAN_DUSTCLEAN;
-			else if(strcmp("effective",token) == 0)
+			else if(strcmp("dissipate",token) == 0)
 				data.fan_val = FAN_DISSIPATION;
 			else
 				goto skip_write;		
@@ -92,14 +95,16 @@ parse_buffer_into_struct(char *buffer)
 			data.webcam_set = true;
 		} else {
 			/* Unrecognized option, return empty struct */
-			return (struct data) {0};
+			return data;
 		}
+		skip_write:
 		/* get next token */
 		token = strtok(NULL," ");
-		
-		skip_write:
-		;
 	}
+
+	// cleanup tmp token
+	free(copy);
+	
 	DEBUG_PRINT("exited parse loop\n");
 	return data;
 }

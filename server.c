@@ -42,6 +42,7 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 	else
 		dbus_message_iter_get_basic(&args, &param);
 	DEBUG_PRINT("Method called with arguments \"%s\"\n", param);
+
 	/***************************************************************
 	 ************* PARSE && PROCESS *******************************/
 	if(!is_there_kernel_support())
@@ -147,4 +148,6 @@ main()
 	}
 	dbus_error_free(&err);
 	free(filter_rule);
+
+	return 0;
 }

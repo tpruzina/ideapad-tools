@@ -27,7 +27,7 @@ OPTS:
  --fan silent		#sets fan mode to silent
  --fan default		#sets fan mode to default
  --fan dustclean	#sets fan mode to dust cleaning
- --fan cool		#sets fan mode to effective cooling
+ --fan dissipate		#sets fan mode to effective cooling
 
 --webcam		#prints current webcam power status
  --webcam on		#turns webcam on
