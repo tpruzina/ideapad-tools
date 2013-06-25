@@ -1,6 +1,7 @@
 .deps/
 .dirstamp
 *.o
+test
 /INSTALL
 /Makefile.in
 /aclocal.m4

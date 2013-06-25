@@ -30,7 +30,7 @@ get_fan_state(void)
 int
 set_fan_state(int state)
 {
-	DEBUG_PRINT("Entering set_fan_state");
+	DEBUG_PRINT("Entering set_fan_state, opt == %d",state);
 	if(state < 0 || state > 4 || state == 3)
 		return -1;
 	FILE *fd = fopen(FAN_CTRL_IFACE, "w");

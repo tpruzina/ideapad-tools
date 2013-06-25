@@ -33,6 +33,7 @@ parse_args_into_buffer(char *buffer,int argc, char **argv)
 struct data
 parse_buffer_into_struct(char *str)
 {
+	DEBUG_PRINT("\nEntering parse loop.");
 	char *token = NULL;
 	struct data data = {false,false,0,	//fan - print,set,value
 			    false,false,0,};	//cam - print,set,value
@@ -105,13 +106,14 @@ parse_buffer_into_struct(char *str)
 	// cleanup tmp token
 	free(copy);
 	
-	DEBUG_PRINT("exited parse loop\n");
+	DEBUG_PRINT("Succesfully exiting parse loop");
 	return data;
 }
 
 char *
 process_data(struct data *data)
 {
+	DEBUG_PRINT("\nEntering processing function");
 	/* main buffer for formatted message */
 	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
 	if(!reply_buffer) {
@@ -119,8 +121,9 @@ process_data(struct data *data)
 		exit(1);
 	}
 	/* side buffer, used for snprintf and then concatenation to
-	 * 	 * reply_buffer */
-	char partial_message[20] = {0};
+	 * reply_buffer */
+	// TODO: this is probably not necessary, use simple pointer?
+	char partial_message[64] = {0};
 
 	/* this may be useless, check standard/posix */
 	*reply_buffer='\0';
@@ -156,10 +159,12 @@ process_data(struct data *data)
 
 	/* PRINT WEBCAM STATE */
 	if(data->webcam_print) {
-		DEBUG_PRINT("%d\n",get_camera_state());
+		DEBUG_PRINT("current camera state: %d",get_camera_state());
 		/* unless we did set camera, this is still -1 */
 		if(!data->webcam_set)
 			data->webcam_val=get_camera_state();
+		
+		DEBUG_PRINT("camera state after: %d", get_camera_state());
 
 		sprintf(partial_message,
 			"camera power:\t%s\n",	data->webcam_val == 0 ? "off" :
@@ -174,6 +179,8 @@ process_data(struct data *data)
 			"Invalid command line parameters!\n");
 		strncat(reply_buffer,partial_message, BUFFER_SIZE - strlen(reply_buffer) - 1);
 	}
+
+	DEBUG_PRINT("Successfully exiting processing function");
 
 	/* Return buffer*/
 	return reply_buffer;

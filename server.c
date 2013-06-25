@@ -41,7 +41,7 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 		fprintf(stderr, "Argument is not string!\n");
 	else
 		dbus_message_iter_get_basic(&args, &param);
-	DEBUG_PRINT("Method called with arguments \"%s\"\n", param);
+	DEBUG_PRINT("Method called with arguments \"%s\"", param);
 
 	/***************************************************************
 	 ************* PARSE && PROCESS *******************************/

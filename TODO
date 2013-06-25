@@ -1,4 +1,5 @@
-M:	make this thingy faster
+M:DONE	make this thingy faster
 M:	write documentation
 M:	debug argument parsing
+L:	more verbose argument parsing
 H:	modify autotools stuff to support dbus services and stuff
