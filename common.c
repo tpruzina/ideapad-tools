@@ -13,7 +13,7 @@
 #include <stdlib.h> //malloc
 #include <dirent.h>
 
-#include "functions.h"
+#include "common.h"
 #include "platform.h"
 
 /* client's command line arguments are parsed into formatted string which is to be sent

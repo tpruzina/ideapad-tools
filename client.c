@@ -17,7 +17,7 @@
 #include <dbus/dbus.h>
 
 #include "bus.h"
-#include "functions.h" // parsing functions
+#include "common.h" // parsing functions
 
 void
 method_call(DBusConnection *conn, const char *msg_text)

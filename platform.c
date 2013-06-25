@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include "platform.h"
-#include "functions.h" // debug print
+#include "common.h" // debug print
 
 /* FAN CONTROL VIA /sys interface */
 int

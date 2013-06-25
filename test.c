@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "platform.h"
-#include "functions.h"
+#include "common.h"
 
 #include <stdio.h>
 #include <assert.h>

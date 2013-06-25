@@ -4,9 +4,9 @@ PREFIX=/usr/local
 
 all: ideapad-client ideapad-server test
 
-ideapad-client: client.c functions.c platform.c
+ideapad-client: common.c client.c platform.c
 	$(CC) $(CFLAGS) $(DBUS_INCLUDES) $^ -o $@ 
-ideapad-server: server.c functions.c platform.c
+ideapad-server: server.c common.c platform.c
 	$(CC) $(CFLAGS) $(DBUS_INCLUDES) $^ -o $@ 
 
 install:
@@ -21,7 +21,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/ideapad-client
 	rm -f $(PREFIX)/sbin/ideapad-server
 
-test: test.c functions.c platform.c
+test: test.c common.c platform.c
 	$(CC) $(CFLAGS) $^ -o $@ 
 
 .PHONY: clean

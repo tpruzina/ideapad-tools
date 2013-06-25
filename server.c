@@ -17,7 +17,7 @@
 #include <stdbool.h>
 #include <dbus/dbus.h>
 
-#include "functions.h"
+#include "common.h"
 #include "bus.h"
 
 
