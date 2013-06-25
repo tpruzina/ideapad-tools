@@ -42,6 +42,7 @@ bool is_there_kernel_support(void);
 #define DEBUG_PRINT(...) do{ \
 			fprintf(stderr, "%s:%i:",__FILE__, __LINE__);\
 			fprintf(stderr,__VA_ARGS__ );\
+			fprintf(stderr,"\n");\
 			(void) fflush(stderr);\
 			} while( false )
 #else

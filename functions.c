@@ -52,7 +52,7 @@ parse_buffer_into_struct(char *str)
 			data.fan_print = true;
 			/* get next token */
 			token = strtok(NULL," ");
-			DEBUG_PRINT("--fan given\n");
+			DEBUG_PRINT("--fan given");
 			
 			/* if we detect any of these, set property
 			 * else just parse next token (if any)*/
@@ -115,7 +115,7 @@ process_data(struct data *data)
 	/* main buffer for formatted message */
 	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
 	if(!reply_buffer) {
-		fprintf(stderr,"OOM!\n");
+		fprintf(stderr,"%s%d: OOM!\n",__FILE__,__LINE__);
 		exit(1);
 	}
 	/* side buffer, used for snprintf and then concatenation to

@@ -11,12 +11,13 @@
 #include <stdio.h>
 
 #include "platform.h"
-
+#include "functions.h" // debug print
 
 /* FAN CONTROL VIA /sys interface */
 int
 get_fan_state(void)
 {
+	DEBUG_PRINT("Entering get_fan_state");
 	int state=-1;
 	FILE *fd = fopen(FAN_CTRL_IFACE,"r");
 	if(!fd)
@@ -29,6 +30,7 @@ get_fan_state(void)
 int
 set_fan_state(int state)
 {
+	DEBUG_PRINT("Entering set_fan_state");
 	if(state < 0 || state > 4 || state == 3)
 		return -1;
 	FILE *fd = fopen(FAN_CTRL_IFACE, "w");
@@ -42,6 +44,7 @@ set_fan_state(int state)
 int
 get_camera_state(void)
 {
+	DEBUG_PRINT("Entering get_camera_state");
 	int state;
 	FILE *fd = fopen(CAMERA_CTRL_IFACE,"r");
 	if(!fd)
@@ -55,7 +58,8 @@ get_camera_state(void)
 int
 set_camera_state(int state)
 {
-	if(state != 1 || state != 0)
+	DEBUG_PRINT("Entering set_camera_state, opt == %d",state);
+	if(state < 0 || state > 1)
 		return -1;
 	FILE *fd = fopen(CAMERA_CTRL_IFACE, "w");
 	if(!fd)
