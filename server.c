@@ -45,6 +45,7 @@ reply_to_method_call(DBusMessage* msg, DBusConnection* conn)
 
 	/***************************************************************
 	 ************* PARSE && PROCESS *******************************/
+	
 	if(!is_there_kernel_support())
 		reply_text = "No kernel support!\n";
 	else {

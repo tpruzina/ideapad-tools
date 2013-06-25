@@ -1,5 +1,5 @@
 DBUS_INCLUDES=-I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -ldbus-1
-CFLAGS=-O0 -g
+CFLAGS=-O0 -g -DDEBUG
 PREFIX=/usr/local
 
 all: ideapad-client ideapad-server test
