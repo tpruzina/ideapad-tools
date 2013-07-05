@@ -33,7 +33,7 @@ parse_args_into_buffer(char *buffer,int argc, char **argv)
 struct data
 parse_buffer_into_struct(char *str)
 {
-	DEBUG_PRINT("\nEntering parse loop.");
+	DEBUG_PRINT("Entering parse loop.");
 	char *token = NULL;
 	struct data data = {false,false,0,	//fan - print,set,value
 			    false,false,0,};	//cam - print,set,value
@@ -96,7 +96,7 @@ parse_buffer_into_struct(char *str)
 			data.webcam_set = true;
 		} else {
 			/* Unrecognized option, return empty struct */
-			return data;
+			break;
 		}
 		skip_write:
 		/* get next token */
@@ -115,7 +115,7 @@ process_data(struct data *data)
 {
 	DEBUG_PRINT("\nEntering processing function");
 	/* main buffer for formatted message */
-	char *reply_buffer = malloc(sizeof(BUFFER_SIZE));
+	char *reply_buffer = malloc(sizeof(char)*BUFFER_SIZE);
 	if(!reply_buffer) {
 		fprintf(stderr,"%s%d: OOM!\n",__FILE__,__LINE__);
 		exit(1);

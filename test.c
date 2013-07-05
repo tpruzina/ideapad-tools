@@ -21,7 +21,7 @@ test_opt_parse(char *test_str, struct data data)
 {
 	static int i=0;
 	i++;
-	struct data out = {0};
+	struct data out;
 	out = parse_buffer_into_struct(test_str);
 	if(
 		data.fan_print != out.fan_print	||

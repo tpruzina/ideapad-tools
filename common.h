@@ -16,11 +16,6 @@
 
 #define BUFFER_SIZE 512
 
-#define FAN_SILENT	0
-#define FAN_STANDARD	1
-#define	FAN_DUSTCLEAN	2
-#define	FAN_DISSIPATION	4
-
 struct data
 {
 	bool	fan_print;
