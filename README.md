@@ -19,6 +19,12 @@ Dependencies:<br>
 dbus<br>
 kernel with ideapad-laptop platform driver<br>
 
+Installation:
+<pre>
+make
+make install
+</pre>
+
 Usage:
 <pre>
 ideapad-client [OPTS]
