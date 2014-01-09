@@ -1,4 +1,4 @@
-DBUS_INCLUDES=-I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -ldbus-1
+DBUS_INCLUDES=`pkg-config --cflags --libs dbus-1`
 CFLAGS=-O0 -g -DDEBUG
 PREFIX=/usr/local
 

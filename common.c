@@ -115,6 +115,10 @@ char *
 process_data(struct data *data)
 {
 	DEBUG_PRINT("\nEntering processing function");
+
+	/* initialisation of platform interface */
+	platform_init();
+
 	/* main buffer for formatted message */
 	char *reply_buffer = malloc(sizeof(char)*BUFFER_SIZE);
 	if(!reply_buffer) {
