@@ -18,6 +18,7 @@ test
 /missing
 /stamp-h?
 .*.swp
+test
 tags
 ideapad-server
 ideapad-client
