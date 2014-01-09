@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * TODO: Project Title
+ * Functions common for both client and service or not belonging anywhere else
  *
  * Author: Tomas Pruzina <pruzinat@gmail.com>
  *
@@ -12,6 +12,7 @@
 #include <string.h> //strcmp,strtok
 #include <stdlib.h> //malloc
 #include <dirent.h>
+
 
 #include "common.h"
 #include "platform.h"
