@@ -9,13 +9,52 @@
  *
  ******************************************************************************/
 #include <stdio.h>
+#include <linux/version.h>
 
 #include "platform.h"
 #include "common.h" // debug print
 
+int (*get_fan_state)(void);
+int (*set_fan_state)(int state);
+int (*get_camera_state)(void);
+int (*set_camera_state)(int state);
+
+int
+platform_init(void)
+{
+	if(acpi_interface_present())
+	{
+		get_fan_state = acpi_get_fan_state;
+		set_fan_state =	acpi_set_fan_state;
+		get_camera_state = acpi_get_camera_state;
+		set_camera_state = acpi_set_camera_state;
+	}
+	else if(sysfs_interface_present())
+	{
+		get_fan_state = sysctl_get_fan_state;
+		set_fan_state =	sysctl_set_fan_state;
+		get_camera_state = sysctl_get_camera_state;
+		set_camera_state = sysctl_set_camera_state;
+	}
+	else
+		return -1;
+}
+
+bool
+sysfs_interface_present()
+{
+	return true;
+}
+
+bool
+acpi_interface_present()
+{
+	return false;
+}
+
 /* FAN CONTROL VIA /sys interface */
 int
-get_fan_state(void)
+sysctl_get_fan_state(void)
 {
 	DEBUG_PRINT("Entering get_fan_state");
 	int state=-1;
@@ -28,7 +67,7 @@ get_fan_state(void)
 }
 
 int
-set_fan_state(int state)
+sysctl_set_fan_state(int state)
 {
 	DEBUG_PRINT("Entering set_fan_state, opt == %d",state);
 	if(state < 0 || state > 4 || state == 3)
@@ -42,7 +81,7 @@ set_fan_state(int state)
 
 /* CAMERA CONTROL VIA /sys interface */
 int
-get_camera_state(void)
+sysctl_get_camera_state(void)
 {
 	DEBUG_PRINT("Entering get_camera_state");
 	int state;
@@ -56,7 +95,7 @@ get_camera_state(void)
 
 
 int
-set_camera_state(int state)
+sysctl_set_camera_state(int state)
 {
 	DEBUG_PRINT("Entering set_camera_state, opt == %d",state);
 	if(state < 0 || state > 1)
@@ -69,3 +108,24 @@ set_camera_state(int state)
 	return state;
 }
 
+/* ACPI INTERFACES */
+
+int
+acpi_get_fan_state(void)
+{
+}
+
+int
+acpi_set_fan_state(int state)
+{
+}
+
+int
+acpi_get_camera_state(void)
+{
+}
+
+int
+acpi_set_camera_state(int state)
+{
+}

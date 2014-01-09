@@ -14,7 +14,17 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <linux/version.h>
 
+
+bool
+test_linux_version()
+{
+	if(LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0))
+		printf("\n Compile time kernel version is >= 3.13, acpi interface used.\n");
+	else
+		printf("\nCompile time kernel version is < 3.13, procfs fallback used.\n");
+}
 
 bool
 test_opt_parse(char *test_str, struct data data)
@@ -83,17 +93,21 @@ test_opt_parse2()
 void
 test_platform_functs()
 {
+	/*
 	set_fan_state(0);
 	set_camera_state(1);
 	printf("%d %d",
 		get_fan_state(),
 		get_camera_state()
 	);
+	*/
+	test_linux_version();
 }
 
 int main()
 {
 	test_opt_parse2();
+	test_platform_functs();
 	return 0;
 }
 
