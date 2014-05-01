@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.ideapad.server
+Exec=/usr/local/sbin/ideapad-server
+User=root
