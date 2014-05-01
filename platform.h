@@ -14,9 +14,9 @@
 
 #include <stdbool.h>
 
-#define IFACE_DIR "/sys/devices/platform/ideapad"
-#define FAN_CTRL_IFACE "/sys/devices/platform/ideapad/fan_mode"
-#define CAMERA_CTRL_IFACE "/sys/devices/platform/ideapad/camera_power"
+#define IFACE_DIR "/sys/devices/platform/VPC2004:00/"
+#define FAN_CTRL_IFACE "/sys/devices/platform/VPC2004:00/fan_mode"
+#define CAMERA_CTRL_IFACE "/sys/devices/platform/VPC2004:00/camera_power"
 
 #define FAN_SILENT	0
 #define FAN_STANDARD	1

@@ -10,13 +10,13 @@ ideapad-server: server.c common.c platform.c
 	$(CC) $(CFLAGS) $(DBUS_INCLUDES) $^ -o $@ 
 
 install:
-	cp ./dbus/ideapad.server.service	/usr/share/dbus-1/system-services/
+	cp ./dbus/org.ideapad.server.service	/usr/share/dbus-1/system-services/
 	cp ./dbus/org.ideapad.conf		/etc/dbus-1/system.d/
 	cp ./ideapad-client			$(PREFIX)/bin/
 	cp ./ideapad-server			$(PREFIX)/sbin/
 
 uninstall:
-	rm -f /usr/share/dbus-1/system-services/ideapad.server.service
+	rm -f /usr/share/dbus-1/system-services/org.ideapad.server.service
 	rm -f /etc/dbus-1/system.d/org.ideapad.conf
 	rm -f $(PREFIX)/bin/ideapad-client
 	rm -f $(PREFIX)/sbin/ideapad-server
